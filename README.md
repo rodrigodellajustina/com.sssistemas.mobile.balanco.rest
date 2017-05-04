@@ -1,1 +1,1 @@
-"# com.sssistemas.mobile.balanco.rest" 
+Camada Rest Balanço Mobile da SS.
