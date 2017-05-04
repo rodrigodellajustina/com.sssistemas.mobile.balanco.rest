@@ -1,0 +1,27 @@
+-- Function: getcnpjativo(text)
+
+CREATE OR REPLACE FUNCTION getcnpjativo(cnpj text)
+  RETURNS text AS
+$BODY$
+ DECLARE 
+    RCNPJ RECORD;
+    pCNPJ ALIAS FOR $1;
+
+BEGIN
+ SELECT INTO RCNPJ CNPJ.CNPJ, CNPJ.ATIVO FROM DADOS.CNPJ WHERE CNPJ.CNPJ = CAST(pCNPJ AS VARCHAR(14)) AND CNPJ.ATIVO = 1;
+ IF NOT FOUND THEN
+    -- INATIVO OU INEXISTENTE
+    RETURN '0';
+ ELSE
+    -- ATIVO
+    RETURN '1';
+ END IF;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION getcnpjativo(text)
+  OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION getcnpjativo(text) TO public;
+GRANT EXECUTE ON FUNCTION getcnpjativo(text) TO postgres;
+GRANT EXECUTE ON FUNCTION getcnpjativo(text) TO bal5nco;

@@ -1,0 +1,1 @@
+DROP FUNCTION setchaveacesso(text, text, integer);

@@ -1,0 +1,38 @@
+-- Function: setchaveacesso(text, text, integer)
+
+CREATE OR REPLACE FUNCTION setchaveacesso(
+    cnpj text,
+    chaveacesso text,
+    alterarlocalizacao integer)
+  RETURNS text AS
+$BODY$
+ DECLARE 
+    RCHAVEACESSO RECORD;
+    pCNPJ ALIAS FOR $1;
+    pCHAVEACESSO ALIAS FOR $2;
+    pALTERARLOCALIZACAO ALIAS FOR $3;
+BEGIN
+ SELECT INTO RCHAVEACESSO CHAVEACESSO.CNPJ, CHAVEACESSO.CHAVE, CHAVEACESSO.ELIMINADA, CHAVEACESSO.ENCERRADA FROM DADOS.CHAVEACESSO WHERE CHAVEACESSO.CNPJ = CAST(pCNPJ AS VARCHAR(14)) AND CHAVEACESSO.CHAVE = CAST(pCHAVEACESSO AS VARCHAR(20));
+ IF NOT FOUND THEN
+    INSERT INTO DADOS.CHAVEACESSO (cnpj,chave,dataenvio,contadordownload,eliminada,encerrada, alterarlocalizacao) values (pCNPJ, pCHAVEACESSO, CURRENT_TIMESTAMP, 0, 0,0, pALTERARLOCALIZACAO);
+    RETURN '1';
+ ELSE
+    IF RCHAVEACESSO.ELIMINADA = 1 THEN
+       RETURN '2';
+    END IF;
+    IF RCHAVEACESSO.ENCERRADA = 1 THEN
+       RETURN '3';
+    END IF;
+    IF RCHAVEACESSO.ELIMINADA = 0 AND RCHAVEACESSO.ENCERRADA = 0 THEN
+	RETURN '0';
+    END IF;
+ END IF;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION setchaveacesso(text, text, integer)
+  OWNER TO postgres;
+GRANT EXECUTE ON FUNCTION setchaveacesso(text, text, integer) TO public;
+GRANT EXECUTE ON FUNCTION setchaveacesso(text, text, integer) TO postgres;
+GRANT EXECUTE ON FUNCTION setchaveacesso(text, text, integer) TO bal5nco;

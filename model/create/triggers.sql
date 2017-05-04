@@ -1,0 +1,24 @@
+CREATE OR REPLACE FUNCTION tf_eliminar_contagem()
+  RETURNS trigger AS
+$BODY$ 
+BEGIN 
+
+    IF TG_OP = 'INSERT' THEN
+		
+		DELETE FROM PUBLIC.BALANCO WHERE CNPJ = NEW.CNPJ AND CHAVEACESSO = NEW.CHAVEACESSO AND CODPRODUTO = NEW.CODPRODUTO;
+       
+	END IF;
+    
+    RETURN NEW; 
+END 
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION tf_eliminar_contagem()
+  OWNER TO postgres;
+
+CREATE TRIGGER tr_elminar_contagem
+  BEFORE INSERT
+  ON balanco
+  FOR EACH ROW
+  EXECUTE PROCEDURE tf_eliminar_contagem();

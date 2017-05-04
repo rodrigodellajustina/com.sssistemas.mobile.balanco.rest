@@ -1,0 +1,5 @@
+CREATE SCHEMA dados
+  AUTHORIZATION postgres;
+
+GRANT ALL ON SCHEMA dados TO postgres;
+GRANT USAGE ON SCHEMA dados TO bal5nco;

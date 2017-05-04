@@ -1,0 +1,1 @@
+DROP FUNCTION getbalancomobilecontato(text, text);
