@@ -59,6 +59,7 @@ CREATE TABLE dados.balanco
   localizacao2 character(3) NOT NULL,
   localizacao3 character(3) NOT NULL,
   codfabricante character varying(16),
+  posicao integer not null default 0,
   CONSTRAINT balanco_pkey PRIMARY KEY (cnpj, chave, codproduto),
   CONSTRAINT fk_balanco_chaveacesso FOREIGN KEY (cnpj, chave)
       REFERENCES dados.chaveacesso (cnpj, chave) MATCH SIMPLE

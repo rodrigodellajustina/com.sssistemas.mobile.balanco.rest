@@ -20,9 +20,10 @@ insert into dados.balanco (
    cast(json_to_table.localizacao1 as char(3)),
    cast(json_to_table.localizacao2 as char(3)),
    cast(json_to_table.localizacao3 as char(3)),
-   cast(json_to_table.codfabricante as char(16))
+   cast(json_to_table.codfabricante as char(16)),
+   cast(json_to_table.posicao as integer)
 from (
-	select * from json_to_recordset(jsonproduto) as x(cnpj text, chave text, codproduto text, desproduto text, codbarra text, codmarca text, desmarca text, empfil text, localizacao1 text, localizacao2 text, localizacao3 text, codfabricante text)
+	select * from json_to_recordset(jsonproduto) as x(cnpj text, chave text, codproduto text, desproduto text, codbarra text, codmarca text, desmarca text, empfil text, localizacao1 text, localizacao2 text, localizacao3 text, codfabricante text, posicao text)
      ) as json_to_table
 
 );

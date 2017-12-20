@@ -15,7 +15,7 @@ begin
 
  return query select balanco.codproduto,
 		     balanco.desproduto,
-		     balanco.codbarra,		     
+		     balanco.codbarra,
 		     balanco.codmarca,
 		     balanco.desmarca,
 		     balanco.localizacao1,
@@ -26,7 +26,8 @@ begin
 		     balanco.codfabricante
 	      from 
 		     dados.balanco 
-	      where balanco.CNPJ = CAST(pCNPJ AS VARCHAR(14)) AND balanco.CHAVE = CAST(pCHAVEACESSO AS VARCHAR(20));
+	      where balanco.CNPJ = CAST(pCNPJ AS VARCHAR(14)) AND balanco.CHAVE = CAST(pCHAVEACESSO AS VARCHAR(20))
+	      order by posicao;
 
 end;
 $BODY$
